@@ -64,3 +64,20 @@ Independent of forms
     "user_id": 7
     }
 
+
+## Schemas
+- Event schema (service-to-service) used by:
+    - payment service
+    - shipping service
+    - analytics service
+
+- API schema (client-facing) Used by:
+    - frontend
+    - mobile apps
+    - external clients
+app/
+  schemas/          → API (FastAPI layer)
+    order.py
+
+  events/           → Kafka / messaging contracts
+    order.py
