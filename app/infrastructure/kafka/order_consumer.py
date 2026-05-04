@@ -6,9 +6,11 @@ from app.events.order_created import OrderCreatedEvent
 
 class OrderConsumer:
     def __init__(self):
+        settings = Settings()
+
         self.consumer = AIOKafkaConsumer(
             "order.created",
-            bootstrap_servers=Settings.KAFKA_BOOTSTRAP,
+            bootstrap_servers=settings.KAFKA_BOOTSTRAP,
             group_id="order-processors",
             value_deserializer=lambda v: json.loads(v.decode("utf-8")),
             auto_offset_reset="earliest",
