@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.infrastructure.kafka.producer import KafkaProducer
+from app.infrastructure.kafka.order_producer import KafkaProducer
 
 app = FastAPI()
 producer = KafkaProducer()
