@@ -1,5 +1,15 @@
 from fastapi import FastAPI
-from app.api.orders import router as orders_router
+from app.infrastructure.kafka.producer import KafkaProducer
 
 app = FastAPI()
-app.include_router(orders_router)
+producer = KafkaProducer()
+
+
+@app.on_event("startup")
+async def startup():
+    await producer.start()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await producer.stop()
