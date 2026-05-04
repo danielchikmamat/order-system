@@ -81,3 +81,8 @@ app/
 
   events/           → Kafka / messaging contracts
     order.py
+
+## Kafka
+- Intermediary to facilitate exchange between our producers and consumers
+- to run Apache kafka broker server, we use docker
+- aiokafka (client library)
