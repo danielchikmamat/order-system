@@ -11,3 +11,10 @@ class OrderCreatedEvent:
             order.user_id,
             order.items
         )
+
+    def to_dict(self):
+        return {
+            "order_id": self.order_id,
+            "user_id": self.user_id,
+            "items": self.items,
+        }
