@@ -1,29 +1,38 @@
 from aiokafka import AIOKafkaConsumer
 import json
-from app.core.config import settings
+from app.core.config import Settings
+from app.events.order_created import OrderCreatedEvent
 
 
 class OrderConsumer:
     def __init__(self):
         self.consumer = AIOKafkaConsumer(
             "order.created",
-            bootstrap_servers=settings.KAFKA_BOOTSTRAP,
-            group_id="order-service",
+            bootstrap_servers=Settings.KAFKA_BOOTSTRAP,
+            group_id="order-processors",
             value_deserializer=lambda v: json.loads(v.decode("utf-8")),
+            auto_offset_reset="earliest",
         )
 
     async def start(self):
         await self.consumer.start()
+        print("✅ Consumer started")
+
         try:
             async for message in self.consumer:
-                await self.process(message.value)
+                await self.handle_message(message.value)
         finally:
             await self.consumer.stop()
 
-    async def process(self, event: dict):
-        print("Processing order:", event)
+    async def handle_message(self, data: dict):
+        try:
+            event = OrderCreatedEvent(**data)
+        except Exception as e:
+            print("❌ Invalid event:", e)
+            return
 
-        # Example logic:
-        # - charge payment
-        # - reserve stock
-        # - call other services
+        await self.process_order(event)
+
+    async def process_order(self, event: OrderCreatedEvent):
+        print(f"📦 Processing order {event.order_id}")
+        print(f"👤 User: {event.user_id}")
