@@ -1,12 +1,12 @@
 import json
 from aiokafka import AIOKafkaProducer
-from app.core.config import settings
+from app.core.config import Settings
 
 
 class KafkaProducer:
     def __init__(self):
         self.producer = AIOKafkaProducer(
-            bootstrap_servers=settings.KAFKA_BOOTSTRAP,
+            bootstrap_servers=Settings().KAFKA_BOOTSTRAP,
             value_serializer=lambda v: json.dumps(v).encode("utf-8"),
         )
 
