@@ -1,10 +1,11 @@
+from app.core.state import state
 
-from app.infrastructure.kafka.order_producer import KafkaProducer
-
-producer = KafkaProducer()
 
 def get_publisher():
-    return producer
+    return state.kafka_publisher
+
 
 def get_repo():
     return None  # or in-memory stub for now
+
+
