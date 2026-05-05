@@ -1,5 +1,5 @@
 from app.domain.models import Order
-from app.domain.events import OrderCreatedEvent
+from app.events.order_created import OrderCreatedEvent
 
 class OrderService:
     def __init__(self, repo, publisher):
@@ -11,7 +11,12 @@ class OrderService:
 
         #await self.repo.save(order)
 
-        event = OrderCreatedEvent.from_order(order)
-        await self.publisher.publish("order.created", event.to_dict())
+        event = OrderCreatedEvent(
+            order_id =  order.id,
+            user_id = order.user_id,
+            total_items = len(order.items)
+        )
+
+        await self.publisher.publish("order.created", event.model_dump())
 
         return {"order_id": order.id}
