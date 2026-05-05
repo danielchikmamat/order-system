@@ -86,3 +86,6 @@ app/
 - Intermediary to facilitate exchange between our producers and consumers
 - to run Apache kafka broker server, we use docker
 - aiokafka (client library)
+
+## Docker
+- docker compose up --build
