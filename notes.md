@@ -89,3 +89,4 @@ app/
 
 ## Docker
 - docker compose up --build
+- docker compose down
