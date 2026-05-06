@@ -90,11 +90,30 @@ Define all events BEFORE coding services.
 }
 ```
 
+### inventory.reserve.requested
+```json
+{
+  "order_id": "uuid",
+  "reservation_id": "uuid",
+  "items": [
+    {"product_id": "p1", "quantity": 2}
+  ]
+}
+```
 ### inventory.reserved
 ```json
 {
   "order_id": "uuid",
-  "status": "RESERVED"
+  "reservation_id": "uuid",
+  "status": "reserved"
+}
+```
+
+### inventory.failed
+```json
+{
+  "order_id": "uuid",
+  "reason": "out_of_stock"
 }
 ```
 
