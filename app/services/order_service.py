@@ -14,7 +14,7 @@ class OrderService:
         event = OrderCreatedEvent(
             order_id =  order.id,
             user_id = order.user_id,
-            total_items = len(order.items)
+            items = order.items
         )
 
         await self.publisher.publish("order.created", event.model_dump())

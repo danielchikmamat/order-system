@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from app.schemas.order import OrderItem
 
 
-class OrderCreatedEvent(BaseModel):
+class InventoryReserveRequestEvent(BaseModel):
     order_id: str
-    user_id: str
+    reservation_id: str
     items: List[OrderItem]

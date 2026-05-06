@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.orders import router as order_router
-from app.infrastructure.kafka.order_producer import KafkaPublisher
+from app.infrastructure.kafka.producer import KafkaPublisher
 from app.core.state import state
 
 app = FastAPI()
