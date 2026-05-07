@@ -22,7 +22,7 @@ class OrderConsumer:
 
     async def start(self):
         await self.consumer.start()
-        print("✅ Consumer started")
+        print("✅ OrderConsumer started")
 
         try:
             async for message in self.consumer:

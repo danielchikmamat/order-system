@@ -43,12 +43,22 @@ services:
       - .env
     command: uvicorn main:app --host 0.0.0.0 --port 8000
 
-  consumer:
+  order_consumer:
     build: .
-    container_name: consumer
+    container_name: order_consumer
     depends_on:
       kafka:
         condition: service_healthy
     env_file:
       - .env
-    command: sh -c "sleep 10 && python run_consumer.py"
+    command: sh -c "sleep 10 && python run_order_consumer.py"
+
+  inventory_consumer:
+    build: .
+    container_name: inventory_consumer
+    depends_on:
+      kafka:
+        condition: service_healthy
+    env_file:
+      - .env
+    command: sh -c "sleep 10 && python run_inventory_consumer.py"
