@@ -32,6 +32,23 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: orderuser
+      POSTGRES_PASSWORD: orderpass
+      POSTGRES_DB: orderdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orderuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build: .
     container_name: api
@@ -39,6 +56,7 @@ services:
       - "8000:8000"
     depends_on:
       - kafka
+      - postgres
     env_file:
       - .env
     command: uvicorn main:app --host 0.0.0.0 --port 8000
@@ -59,6 +77,11 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
     command: sh -c "sleep 10 && python run_inventory_consumer.py"
+
+volumes:
+  postgres_data:
